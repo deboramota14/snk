@@ -1,0 +1,42 @@
+<?php
+require 'modelo/cupomModelo.php';
+
+function index () {
+	$dados["cupons"] = pegarTodosCupons();
+	exibir ("cupom/listar", $dados);
+}
+
+/** admin */
+function adicionar() {
+	if (ehPost()) {
+		extract($_POST);
+		alert(adicionarCupom($nomecupom, $desconto));
+		redirecionar("cupom/index");
+	} else {
+		exibir("cupom/formulario");
+	}
+}
+
+/** admin */
+function deletar($id) {
+	alert(deletarCupom($id));
+	redirecionar("cupom/index");
+}
+
+/** admin */
+function editar($id) {
+	if (ehPost()) {
+		extract($_POST);
+		$nomecupom = $_POST["nomecupom"];
+		$desconto = $_POST["desconto"];
+		alert(editarCupom($id, $nomecupom,$desconto));
+		redirecionar("cupom/index");
+	} else {
+		$dados["cupons"] = pegarCupomPorId($id);
+		exibir("cupom/formulario", $dados);
+	}
+}
+
+
+
+?>
